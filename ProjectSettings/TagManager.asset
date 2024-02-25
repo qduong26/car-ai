@@ -6,6 +6,10 @@ TagManager:
   tags:
   - AI
   - cp
+  - box
+  - trap
+  - 40
+  - beartrap
   layers:
   - Default
   - TransparentFX
@@ -16,9 +20,9 @@ TagManager:
   - 
   - 
   - Car
-  - 
-  - 
-  - 
+  - Both
+  - Minimap
+  - box
   - 
   - 
   - 

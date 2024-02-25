@@ -11,7 +11,9 @@ public class Cpplayer : MonoBehaviour
     public GameObject UIbutton;
     public GameObject UIthua;
     public static Cpplayer Instance;
+    public Vector3 position;
     public TopDownCarController carController;
+    private Rigidbody2D rb;
     private void Awake()
     {
         if (Instance == null)
@@ -23,6 +25,7 @@ public class Cpplayer : MonoBehaviour
     void Start()
     {
         carController = GetComponent<TopDownCarController>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -47,12 +50,28 @@ public class Cpplayer : MonoBehaviour
             {
                 if (collision.gameObject == checkpoints[i] && m == i-1)
                 {
-                    m = i;
+                    position = gameObject.transform.position;
+                
+                m = i;
                
                     break;
                 }
             }
         
+
     }
-   
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        if (collision.gameObject.tag == "trap")
+        {
+           
+            transform.position = position;
+            
+
+
+
+        }
+    }
+
 }
