@@ -46,7 +46,8 @@ public class meettrap : MonoBehaviour
             Destroy(collision.gameObject);
 
             Instantiate(no, collision.transform.position, Quaternion.identity);
-            if (!itemHandler.baove || !itemHandler.vodich) {
+           
+            if ((itemHandler.baove == false) && (itemHandler.vodich == false)) {
                 
                 Vector2 hitDirection = (transform.position - collision.transform.position).normalized;
 
@@ -65,7 +66,8 @@ public class meettrap : MonoBehaviour
                 Destroy(collision.gameObject);
 
                 Instantiate(no, collision.transform.position, Quaternion.identity);
-                if (!itemHandler.baove || !itemHandler.vodich)
+
+                if ((itemHandler.baove == false) && (itemHandler.vodich == false))
                 {
 
                     Vector2 hitDirection = (transform.position - collision.transform.position).normalized;
@@ -82,8 +84,10 @@ public class meettrap : MonoBehaviour
         {
 
             Destroy(collision.gameObject);
-            if (!itemHandler.baove || !itemHandler.vodich)
+            if ((itemHandler.baove == false) && (itemHandler.vodich == false))
             {
+
+                Debug.Log(itemHandler.baove);
                 stopposition = gameObject.transform.position;
 
                 StartCoroutine(meetbeartrap());

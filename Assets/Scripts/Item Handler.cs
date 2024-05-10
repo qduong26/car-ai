@@ -218,11 +218,11 @@ public class ItemHandler : MonoBehaviour
         {
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             ItemHandler itemHandler = collision.gameObject.GetComponent<ItemHandler>();
-            if (vodich &&(!itemHandler.vodich || !itemHandler.baove))
+            if (vodich &&(itemHandler.vodich == false && itemHandler.baove == false))
             {
                 Vector2 hitDirection = (transform.position - collision.transform.position).normalized;
 
-                rb.AddForce(-hitDirection * 10f, ForceMode2D.Impulse);
+                rb.AddForce(-hitDirection * 6f, ForceMode2D.Impulse);
             }
         }
     }
