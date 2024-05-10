@@ -14,13 +14,13 @@ public class CarAIHandler : MonoBehaviour
 
     //Local variables
     Vector3 targetPosition = Vector3.zero;
-    Transform targetTransform = null;
+    
 
     //Avoidance
     Vector2 avoidanceVectorLerped = Vector3.zero;
 
     //Waypoints
-    WaypointNode currentWaypoint = null;
+    [SerializeField] WaypointNode currentWaypoint = null;
     WaypointNode[] allWayPoints;
 
     //Colliders
@@ -33,7 +33,7 @@ public class CarAIHandler : MonoBehaviour
     void Awake()
     {
         topDownCarController = GetComponent<TopDownCarController>();
-        allWayPoints = FindObjectsOfType<WaypointNode>();
+        
 
         polygonCollider2D = GetComponentInChildren<PolygonCollider2D>();
     }
@@ -41,6 +41,8 @@ public class CarAIHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        allWayPoints = FindObjectsOfType<WaypointNode>();
+        
     }
 
     // Update is called once per frame and is frame dependent
@@ -48,20 +50,9 @@ public class CarAIHandler : MonoBehaviour
     {
         Vector2 inputVector = Vector2.zero;
 
-        switch (aiMode)
-        {
-            case AIMode.followPlayer:
-                FollowPlayer();
-                break;
-
-            case AIMode.followWaypoints:
+        
                 FollowWaypoints();
-                break;
-
-            case AIMode.followMouse:
-                FollowMousePosition();
-                break;
-        }
+               
 
         inputVector.x = TurnTowardTarget();
         inputVector.y = ApplyThrottleOrBrake(inputVector.x);
@@ -70,15 +61,7 @@ public class CarAIHandler : MonoBehaviour
         topDownCarController.SetInputVector(inputVector);
     }
 
-    //AI follows player
-    void FollowPlayer()
-    {
-        if (targetTransform == null)
-            targetTransform = GameObject.FindGameObjectWithTag("Player").transform;
-
-        if (targetTransform != null)
-            targetPosition = targetTransform.position;
-    }
+   
 
     //AI follows waypoints
     void FollowWaypoints()
@@ -102,22 +85,15 @@ public class CarAIHandler : MonoBehaviour
                 if (currentWaypoint.maxSpeed > 0)
                     maxSpeed = currentWaypoint.maxSpeed;
                 else maxSpeed = 1000;
-
+                Debug.Log(gameObject.name + "Reached waypoint: " + currentWaypoint.name);
                 //If we are close enough then follow to the next waypoint, if there are multiple waypoints then pick one at random.
-                currentWaypoint = currentWaypoint.nextWaypointNode[Random.Range(0, currentWaypoint.nextWaypointNode.Length)];
+                 currentWaypoint = currentWaypoint.nextWaypointNode[Random.Range(0, currentWaypoint.nextWaypointNode.Length)];
+               
             }
         }
     }
 
-    //AI follows the mouse position
-    void FollowMousePosition()
-    {
-        //Take the mouse position in screen space and convert it to world space
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        //Set the target position of for the AI. 
-        targetPosition = worldPosition;
-    }
+   
 
     //Find the cloest Waypoint to the AI
     WaypointNode FindClosestWayPoint()

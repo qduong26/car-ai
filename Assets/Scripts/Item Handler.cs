@@ -8,12 +8,19 @@ public class ItemHandler : MonoBehaviour
     public bool isbig = false;
     public bool isthrough = false;
     public bool isspeedup = false;
+    public bool baove = false;
+    public bool vodich = false;
+    private Animator animator;
+    public GameObject effect;
     GameObject gameobject;
     Vector3 originalScale ;
-
+    Vector3 vitrisp;
     TopDownCarController topDownCarController;
+    Rigidbody2D Rigidbody2D;
     void Start()
     {
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+        animator = effect.GetComponent<Animator>();
         topDownCarController = GetComponent<TopDownCarController>();
         gameobject = gameObject;
         originalScale = gameObject.transform.localScale;
@@ -22,39 +29,70 @@ public class ItemHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(isspeedup || vodich)
+        { 
+            Rigidbody2D.AddForce(transform.up * 0.05f, ForceMode2D.Impulse);
+        }
         
     }
    public void small()
     {
-        if (!issmall && !isbig && !isthrough && !isspeedup) {
+        
             issmall = true;
-            StartCoroutine(ScaleDownAndRestore(gameobject)); }
+            StartCoroutine(ScaleDownAndRestore(gameobject)); 
     }    
     public void big()
     {
-        if (!issmall && !isbig && !isthrough && !isspeedup)
-        {
+        
             isbig = true;
             StartCoroutine(ScaleUpAndRestore(gameobject));
-        }
+        
     }
     public void through()
     {
-        if (!issmall && !isbig && !isthrough && !isspeedup)
-        {
+        
             isthrough = true;
 
             StartCoroutine(Through(gameobject));
-        }
+        
     }
     public void speedup() {
-        if (!issmall && !isbig && !isthrough && !isspeedup)
-        {
+        
             isspeedup = true;
 
             StartCoroutine(Speedup(gameobject));
-        }
+        
     }
+    public void Shield()
+    {
+        
+           
+            baove = true;
+            StartCoroutine(shield());
+        
+    }
+    public void star()
+    {
+        
+            vodich = true;
+
+            StartCoroutine(Star());
+        
+    }
+    public void min(GameObject min)
+    {
+        vitrisp = gameobject.transform.position - 3f * gameObject.transform.up;
+        Instantiate(min, vitrisp, Quaternion.identity);
+
+    }
+    
+    public void dan(GameObject dan)
+    {
+        vitrisp = gameobject.transform.position + 3f * gameObject.transform.up;
+        Instantiate(dan, vitrisp, Quaternion.identity);
+
+    }
+    
     IEnumerator ScaleDownAndRestore(GameObject gameobject)
     {
         
@@ -65,7 +103,7 @@ public class ItemHandler : MonoBehaviour
             while (gameobject.transform.localScale.x > originalScale.x / 2 && issmall)
             {
                 gameobject.transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
-                yield return new WaitForSeconds(0.001f);
+                yield return new WaitForSeconds(0.1f);
             }
 
 
@@ -145,11 +183,47 @@ public class ItemHandler : MonoBehaviour
     }
     IEnumerator Speedup(GameObject gameobject)
     {
-        float orignaccelerationFactor = topDownCarController.accelerationFactor;
-        topDownCarController.accelerationFactor = orignaccelerationFactor * 2;
+
+       
         yield return new WaitForSeconds(5f);
-        topDownCarController.accelerationFactor = orignaccelerationFactor;
+        
         isspeedup = false;
 
+    }
+    IEnumerator shield()
+    {
+        animator.SetInteger("Effect", 1);
+      
+
+
+        yield return new WaitForSeconds(5f);
+
+        animator.SetInteger("Effect", 0);
+        baove = false;
+    }
+    IEnumerator Star()
+    {
+        animator.SetInteger("Effect", 2);
+
+
+
+        yield return new WaitForSeconds(5f);
+
+        animator.SetInteger("Effect", 0);
+        vodich = false;
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "car")
+        {
+            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
+            ItemHandler itemHandler = collision.gameObject.GetComponent<ItemHandler>();
+            if (vodich &&(!itemHandler.vodich || !itemHandler.baove))
+            {
+                Vector2 hitDirection = (transform.position - collision.transform.position).normalized;
+
+                rb.AddForce(-hitDirection * 10f, ForceMode2D.Impulse);
+            }
+        }
     }
 }

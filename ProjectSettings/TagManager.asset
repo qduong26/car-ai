@@ -10,6 +10,12 @@ TagManager:
   - trap
   - 40
   - beartrap
+  - min
+  - car
+  - wpnode1
+  - dayxe
+  - lammat
+  - fire
   layers:
   - Default
   - TransparentFX

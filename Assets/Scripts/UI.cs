@@ -13,17 +13,24 @@ public class UI : MonoBehaviour
 
    public void vemenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
-    public void choi()
+    public void choimoi()
     {
         SceneManager.LoadScene(1);
         
     }
     public void choilai()
     {
-        SceneManager.LoadScene(1);
-      
+        SceneManager.LoadScene(4);
+
+    }
+
+    public void records()
+    {
+        SceneManager.LoadScene(5);
+
     }
     public void thoat()
     {

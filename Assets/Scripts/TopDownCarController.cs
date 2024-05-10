@@ -9,21 +9,22 @@ public class TopDownCarController : MonoBehaviour
     public float accelerationFactor = 30.0f;
     public float turnFactor = 3.5f;
     public float maxSpeed = 20;
-
+    public bool isstop;
     //Local variables
     float accelerationInput = 0;
-    float steeringInput = 0;
+    public float steeringInput = 0;
 
-    float rotationAngle = 0;
+    public float rotationAngle = 0;
 
     float velocityVsUp = 0;
 
     //Components
     Rigidbody2D carRigidbody2D;
-
+    meettrap meettrap;
     //Awake is called when the script instance is being loaded.
     void Awake()
     {
+        meettrap = GetComponent<meettrap>();
         carRigidbody2D = GetComponent<Rigidbody2D>();
     }
 
@@ -32,6 +33,15 @@ public class TopDownCarController : MonoBehaviour
         rotationAngle = transform.rotation.eulerAngles.z;
     }
 
+    void Update()
+    {
+        if (isstop)
+        {
+            accelerationInput = 0f;
+            maxSpeed = 0;
+            
+        }
+    }
     //Frame-rate independent for physics calculations.
     void FixedUpdate()
     {
@@ -57,7 +67,7 @@ public class TopDownCarController : MonoBehaviour
             return;
 
         //Limit so we cannot go faster than the 50% of max speed in the "reverse" direction
-        if (velocityVsUp < -maxSpeed*0.5f && accelerationInput < 0)
+        if (velocityVsUp < -maxSpeed * 0.5f && accelerationInput < 0)
             return;
 
         //Limit so we cannot go faster in any direction while accelerating
@@ -81,6 +91,16 @@ public class TopDownCarController : MonoBehaviour
         rotationAngle -= steeringInput * turnFactor * minSpeedBeforeAllowTurningFactor;
 
         //Apply steering by rotating the car object
+        if (meettrap.trungmin)
+        {
+            float originalRotationAngle = rotationAngle;
+            rotationAngle = originalRotationAngle - Random.Range(0, 360);
+        }
+        else
+        {
+            rotationAngle -= steeringInput * turnFactor * minSpeedBeforeAllowTurningFactor;
+        }
+
         carRigidbody2D.MoveRotation(rotationAngle);
     }
 
@@ -140,6 +160,23 @@ public class TopDownCarController : MonoBehaviour
     }
     public void stop()
     {
-        maxSpeed = 0.0f;
+       isstop = true;
+       
     }
+    
 }
+   
+   
+
+
+
+
+   
+
+   
+   
+    
+  
+
+
+
