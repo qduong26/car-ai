@@ -11,6 +11,7 @@ public class getitembot : MonoBehaviour
     public GameObject fire;
     public GameObject beartrap;
     public GameObject mingo;
+    public GameObject ice;
     // Update is called once per frame
     private void Awake()
     {
@@ -60,12 +61,16 @@ public class getitembot : MonoBehaviour
     {
         itemhandler.min(beartrap);
     }
+    void icespawn()
+    {
+        itemhandler.min(ice);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "box")
         {
             Destroy(collision.gameObject);
-            System.Action[] functions = { small, big, through, speedup,min,shield,star, fireball , beartrapspawn };
+            System.Action[] functions = { small, big, through, speedup,min,shield,star, fireball , beartrapspawn, icespawn };
             int randomIndex = Random.Range(0, functions.Length);
             System.Action selectedFunction = functions[randomIndex];
 

@@ -21,11 +21,11 @@ public class dayxe : MonoBehaviour
         {
             if (gameObject.tag == "Player")
             {
-                rb.AddForce(transform.up * 5f, ForceMode2D.Impulse);
+                rb.AddForce(transform.up * 7f, ForceMode2D.Impulse);
             }
             else if (gameObject.tag == "car")
             {
-                rb.AddForce(transform.up * 1f, ForceMode2D.Impulse);
+                rb.AddForce(transform.up * 0.5f, ForceMode2D.Impulse);
             }
         }
     }

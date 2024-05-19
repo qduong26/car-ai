@@ -16,7 +16,7 @@ public class move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, vitri.transform.position, 100 * speedmove * Time.deltaTime);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, transform.position + tr?, 100 * speedmove * Time.deltaTime);
 
             
         

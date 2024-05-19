@@ -12,6 +12,8 @@ public class Getitem : MonoBehaviour
     public GameObject mingo;
     public GameObject fire;
     public GameObject beartrap;
+    public GameObject ice;
+    
     // Update is called once per frame
     private void Awake()
     {
@@ -58,9 +60,17 @@ public class Getitem : MonoBehaviour
             {
                 beartrapspawn();
             }
+            else if (skilldisplay.skill.name == "skill10")
+            {
+                icespawn();
+            }
             skilldisplay.skill = skill[0];
         }
        
+    }
+    void icespawn()
+    {
+        itemhandler.min(ice);
     }
     void fireball()
     {
@@ -103,14 +113,21 @@ public class Getitem : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "box") {
-            Destroy(collision.gameObject);
-            
+
+            collision.gameObject.SetActive(false);
             int randomIndex = Random.Range(1, skill.Length);
             skilldisplay.skill = skill[randomIndex];
-
-            
+             StartCoroutine(repawnbox(collision.gameObject));
            
+
 
         }
     }
+    IEnumerator repawnbox(GameObject box)
+    {
+        yield return new WaitForSeconds(8);
+        box.SetActive(true);
+    }
+   
+    
 }

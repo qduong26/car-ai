@@ -72,7 +72,7 @@ public class meettrap : MonoBehaviour
 
                     Vector2 hitDirection = (transform.position - collision.transform.position).normalized;
 
-                    rb.AddForce(hitDirection * 5f, ForceMode2D.Impulse);
+                    rb.AddForce(hitDirection * 2f, ForceMode2D.Impulse);
 
                     StartCoroutine(ditrungmin());
                 }

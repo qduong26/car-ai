@@ -99,7 +99,7 @@ public class ItemHandler : MonoBehaviour
         
         while (issmall)
         {
-
+            Rigidbody2D.mass = 0.8f;
             while (gameobject.transform.localScale.x > originalScale.x / 2 && issmall)
             {
                 gameobject.transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
@@ -116,13 +116,14 @@ public class ItemHandler : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
                 ;
             }
+            Rigidbody2D.mass = 1f;
             issmall = false;
         }
 
     }
     IEnumerator ScaleUpAndRestore(GameObject gbject)
     {
-       
+        Rigidbody2D.mass = 2f;
         while (isbig)
         {
 
@@ -142,6 +143,7 @@ public class ItemHandler : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
                 ;
             }
+            Rigidbody2D.mass = 1f;
             isbig = false;
         }
 
@@ -214,7 +216,7 @@ public class ItemHandler : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "car")
+        if (collision.gameObject.tag == "car" || collision.gameObject.tag == "Player")
         {
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             ItemHandler itemHandler = collision.gameObject.GetComponent<ItemHandler>();

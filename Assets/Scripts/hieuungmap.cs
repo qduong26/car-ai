@@ -48,10 +48,10 @@ public class hieuungmap : MonoBehaviour
         yield return new WaitUntil(() => ishot == true);
 
         // Nếu ishot là true, bắt đầu giảm tốc độ
-        while (carController.maxSpeed > 10)
+        while (carController.maxSpeed > 12)
         {
             carController.maxSpeed--;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
